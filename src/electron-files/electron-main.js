@@ -96,28 +96,33 @@ function createWindow() {
       label: 'Application',
       submenu: [
         {
-          label: 'Mockoon website', click: function () {
+          label: 'Mockoon website',
+          click: function () {
             shell.openExternal('https://mockoon.com');
           }
         },
         {
-          label: 'Tutorials', click: function () {
+          label: 'Tutorials',
+          click: function () {
             shell.openExternal('https://mockoon.com/tutorials');
           }
         },
         {
-          label: 'Community', click: function () {
+          label: 'Community',
+          click: function () {
             shell.openExternal('https://spectrum.chat/mockoon');
           }
         },
         {
-          label: 'Send feedback', click: function () {
+          label: 'Send feedback',
+          click: function () {
             shell.openExternal('https://github.com/mockoon/mockoon/issues');
           }
         },
         { type: 'separator' },
         {
-          label: 'Settings', accelerator: 'CmdOrCtrl+,', click: function () {
+          label: 'Settings', accelerator: 'CmdOrCtrl+,',
+          click: function () {
             mainWindow.webContents.send('keydown', { action: 'OPEN_SETTINGS' });
           }
         },
@@ -151,61 +156,72 @@ function createWindow() {
     label: 'Actions',
     submenu: [
       {
-        label: 'Add new environment', accelerator: 'Shift+CmdOrCtrl+E', click: function () {
+        label: 'Add new environment', accelerator: 'Shift+CmdOrCtrl+E',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'NEW_ENVIRONMENT' });
         }
       },
       {
-        label: 'Add new route', accelerator: 'Shift+CmdOrCtrl+R', click: function () {
+        label: 'Add new route', accelerator: 'Shift+CmdOrCtrl+R',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'NEW_ROUTE' });
         }
       },
       { type: 'separator' },
       {
-        label: 'Duplicate current environment', accelerator: 'CmdOrCtrl+D', click: function () {
+        label: 'Duplicate current environment', accelerator: 'CmdOrCtrl+D',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'DUPLICATE_ENVIRONMENT' });
         }
       },
       {
-        label: 'Duplicate current route', accelerator: 'Shift+CmdOrCtrl+D', click: function () {
+        label: 'Duplicate current route', accelerator: 'Shift+CmdOrCtrl+D',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'DUPLICATE_ROUTE' });
         }
       },
       { type: 'separator' },
       {
-        label: 'Delete current environment', accelerator: 'Alt+CmdOrCtrl+U', click: function () {
+        label: 'Delete current environment', accelerator: 'Alt+CmdOrCtrl+U',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'DELETE_ENVIRONMENT' });
         }
       },
       {
-        label: 'Delete current route', accelerator: 'Alt+Shift+CmdOrCtrl+U', click: function () {
+        label: 'Delete current route', accelerator: 'Alt+Shift+CmdOrCtrl+U',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'DELETE_ROUTE' });
         }
       },
       { type: 'separator' },
       {
-        label: 'Start/Stop/Reload current environment', accelerator: 'Shift+CmdOrCtrl+S', click: function () {
+        label: 'Start/Stop/Reload current environment', accelerator: 'Shift+CmdOrCtrl+S',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'START_ENVIRONMENT' });
         }
       },
       { type: 'separator' },
       {
-        label: 'Select previous environment', accelerator: 'CmdOrCtrl+Up', click: function () {
+        label: 'Select previous environment', accelerator: 'CmdOrCtrl+Up',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'PREVIOUS_ENVIRONMENT' });
         }
       },
       {
-        label: 'Select next environment', accelerator: 'CmdOrCtrl+Down', click: function () {
+        label: 'Select next environment', accelerator: 'CmdOrCtrl+Down',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'NEXT_ENVIRONMENT' });
         }
       },
       {
-        label: 'Select previous route', accelerator: 'Shift+CmdOrCtrl+Up', click: function () {
+        label: 'Select previous route', accelerator: 'Shift+CmdOrCtrl+Up',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'PREVIOUS_ROUTE' });
         }
       },
       {
-        label: 'Select next route', accelerator: 'Shift+CmdOrCtrl+Down', click: function () {
+        label: 'Select next route', accelerator: 'Shift+CmdOrCtrl+Down',
+        click: function () {
           mainWindow.webContents.send('keydown', { action: 'NEXT_ROUTE' });
         }
       },
@@ -214,23 +230,48 @@ function createWindow() {
 
   // add tools menu, send action through web contents
   menu.push({
-    label: 'Tools',
+    label: 'Import / Export',
     submenu: [
       {
-        label: 'Import environment / route from clipboard', click: function () {
-          mainWindow.webContents.send('keydown', { action: 'IMPORT_CLIPBOARD' });
-        }
+        label: 'Mockoon\'s format',
+        submenu: [
+          {
+            label: 'Import environment / route from clipboard',
+            click: function () {
+              mainWindow.webContents.send('keydown', { action: 'IMPORT_CLIPBOARD' });
+            }
+          },
+          { type: 'separator', label: 'Mockoon' },
+          {
+            label: 'Import environments from file',
+            click: function () {
+              mainWindow.webContents.send('keydown', { action: 'IMPORT_FILE' });
+            }
+          },
+          {
+            label: 'Export all environments to file',
+            click: function () {
+              mainWindow.webContents.send('keydown', { action: 'EXPORT_FILE' });
+            }
+          }
+        ]
       },
       {
-        label: 'Import all environments from file', click: function () {
-          mainWindow.webContents.send('keydown', { action: 'IMPORT_FILE' });
-        }
-      },
-      { type: 'separator' },
-      {
-        label: 'Export all environments', click: function () {
-          mainWindow.webContents.send('keydown', { action: 'EXPORT_FILE' });
-        }
+        label: 'OpenAPI format',
+        submenu: [
+          {
+            label: 'Import environments from file',
+            click: function () {
+              mainWindow.webContents.send('keydown', { action: 'IMPORT_FILE_OPENAPI' });
+            }
+          },
+          {
+            label: 'Export all environments to file',
+            click: function () {
+              mainWindow.webContents.send('keydown', { action: 'EXPORT_FILE_OPENAPI' });
+            }
+          }
+        ]
       }
     ]
   });

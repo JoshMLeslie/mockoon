@@ -26,6 +26,7 @@ import { ValidPathDirective } from 'src/app/directives/valid-path.directive';
 import { MarkedOptionsFactory } from 'src/app/modules-config/markdown-factory';
 import { AnalyticsService } from 'src/app/services/analytics.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { DataConverterService } from 'src/app/services/data-converter.service';
 import { DataService } from 'src/app/services/data.service';
 import { EnvironmentsService } from 'src/app/services/environments.service';
 import { EventsService } from 'src/app/services/events.service';
@@ -69,6 +70,7 @@ import { AppComponent } from './app.component';
     ToastsService,
     AnalyticsService,
     AuthService,
+    DataConverterService,
     EnvironmentsService,
     EventsService,
     ServerService,

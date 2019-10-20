@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { clipboard, remote } from 'electron';
 import * as storage from 'electron-json-storage';
 import * as fs from 'fs';
@@ -9,6 +9,7 @@ import { AnalyticsEvents } from 'src/app/enums/analytics-events.enum';
 import { Errors } from 'src/app/enums/errors.enum';
 import { Messages } from 'src/app/enums/messages.enum';
 import { Migrations } from 'src/app/libs/migrations.lib';
+import { DataConverterService } from 'src/app/services/data-converter.service';
 import { DataService } from 'src/app/services/data.service';
 import { EventsService } from 'src/app/services/events.service';
 import { ServerService } from 'src/app/services/server.service';
@@ -72,7 +73,9 @@ export class EnvironmentsService {
     private eventsService: EventsService,
     private settingsService: SettingsService,
     private store: Store,
-    private serverService: ServerService
+    private serverService: ServerService,
+    private converterService: DataConverterService,
+    private ngZone: NgZone
   ) {
     // get existing environments from storage or default one
     storage.get(this.storageKey, (_error: any, environments: Environment[]) => {
@@ -502,7 +505,6 @@ export class EnvironmentsService {
     const environment = this.store.getEnvironmentByUUID(environmentUUID);
 
     try {
-      // reset environment before exporting
       clipboard.writeText(this.dataService.wrapExport(cloneDeep(environment), 'environment'));
       this.toastService.addToast('success', Messages.EXPORT_ENVIRONMENT_CLIPBOARD_SUCCESS);
       this.eventsService.analyticsEvents.next(AnalyticsEvents.EXPORT_CLIPBOARD);
@@ -642,5 +644,28 @@ export class EnvironmentsService {
    */
   public setEnvironmentCORSHeaders() {
     this.eventsService.injectHeaders.emit({ target: 'environmentHeaders', headers: CORSHeaders });
+  }
+
+  /**
+   * Import an OpenAPI (v2/v3) file in Mockoon's format.
+   * Append imported envs to the env array.
+   */
+  public importOpenAPIFile() {
+    this.dialog.showOpenDialog(this.BrowserWindow.getFocusedWindow(), { filters: [{ name: 'OpenAPI v2/v3 YAML', extensions: ['yaml'] }] }, async (file) => {
+      if (file && file[0]) {
+        const environment = await this.converterService.importOpenAPI(file[0]);
+
+        this.ngZone.run(() => {
+          this.store.update(addEnvironmentAction(environment));
+        });
+      }
+    });
+  }
+
+  /**
+   * Export all environments to an OpenAPI v3 file
+   */
+  public exportOpenAPIFile() {
+
   }
 }
