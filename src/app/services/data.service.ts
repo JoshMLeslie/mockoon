@@ -144,9 +144,10 @@ export class DataService {
     }
 
     // use some getter to keep the scope because some request properties are being defined later by express (route, params, etc)
+    const status = response.customStatusCode && response.statusCode === 0 ? response.customStatusCode : response.statusCode;
     const responseLog: EnvironmentLogResponse = {
       requestUUID: requestUUID,
-      status: response.statusCode,
+      status,
       headers: [],
       body: ''
     };

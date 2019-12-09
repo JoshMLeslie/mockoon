@@ -435,12 +435,23 @@
                         <!-- route status code -->
                         <div class="col">
                           <div class="input-group">
-                            <select class="custom-select col-4" formControlName="statusCode">
-                              <option *ngFor="let statusCode of statusCodes" [value]="statusCode.code"
-                                [selected]="activeRouteResponse.statusCode === statusCode.code">{{statusCode.code}}
-                                -
-                                {{statusCode.text}}</option>
+                            <select class="custom-select" formControlName="statusCode"
+                              [ngClass]="{
+                                'col-4': activeRouteResponseForm.get('statusCode')?.value != 0,
+                                'col-3': activeRouteResponseForm.get('statusCode')?.value == 0
+                              }">
+                              <option #selectedStatusCode
+                                *ngFor="let statusCode of statusCodes"
+                                [value]="statusCode.code"
+                                [selected]="activeRouteResponse.statusCode === statusCode.code.toString()">
+                                {{statusCode.code}} - {{statusCode.text}}
+                              </option>
                             </select>
+                            <input type="text" MousewheelUpdate formControlName="customStatusCode"
+                              *ngIf="activeRouteResponseForm.get('statusCode')?.value == 0"
+                              class="form-control col-1 ml-1"
+                              ngbTooltip="Custom status code"
+                              placeholder="418">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="material-icons">access_time</i></span>
                             </div>

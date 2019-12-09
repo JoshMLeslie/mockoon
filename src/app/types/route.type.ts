@@ -10,6 +10,7 @@ export const methods = [
 ];
 
 export const statusCodes = [
+  { code: 0, text: 'Custom' },
   { code: 100, text: 'Continue' },
   { code: 101, text: 'Switching Protocols' },
   { code: 102, text: 'Processing' },
@@ -236,6 +237,7 @@ export type RouteResponse = {
   uuid: string;
   rules: ResponseRule[];
   statusCode: string;
+  customStatusCode: string;
   label: string;
   headers: Header[];
   body?: string;
